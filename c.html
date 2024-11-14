@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About C Language</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #dedede;
+            color:rgb(219, 219, 219);
+            
+            scroll-behavior: smooth;
+            background-image:  url('https://img.freepik.com/free-vector/matrix-style-binary-code-digital-falling-numbers-blue-background_1017-37387.jpg?size=626&ext=jpg&ga=GA1.1.2008272138.1725062400&semt=ais_hybrid');
+        }
+
+        .header {
+            background: linear-gradient(135deg, #012f55, #012745);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 2.5em;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 2s ease-out;
+        }
+
+        .header::after {
+            
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(228, 228, 231, 0.2);
+            
+            animation: fadeIn 5s ease-out;
+        }
+
+        
+        nav {
+            background-color: #2a5298;
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            text-decoration:underline;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 5px;
+            transition: background-color 2s;
+        }
+
+        nav a:hover {
+            background-color: #c5c5c5;
+            color:#2a5298;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            color:white;
+            background-color:transparent;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            animation: slideIn 3s ease-out;
+        }
+
+        h2 {
+            color: #42a5f5;
+            font-size: 2em;
+            margin-top: 0;
+            animation: fadeIn 1s ease-out;
+        }
+
+        p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+            animation: fadeIn 1s ease-out;
+        }
+
+        ul li {
+            background:transparent;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        ul li:hover {
+            transform: scale(1.05);
+            background-color: #e3f2fd;
+            color: #0d47a1;
+        }
+
+        
+        .cta-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            background-color: #42a5f5;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color:white;
+            transform: scale(1.05);
+            color:#0d47a1;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 3;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 3;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        Introduction to C LANGUAGE
+    </div>
+    <nav>
+        <a href="index.html">Home</a>
+        
+    </nav>
+    <div class="container">
+        <h2>What is C Language?</h2>
+        <p ></p>C is a general-purpose, high-level programming language that was originally developed by Dennis Ritchie in the early 1970s. It is known for its efficiency and flexibility, and it has been widely used in various applications, from system software to game development.</p>
+
+        <h2>History</h2>
+        <p>The C programming language was created as an evolution of the B language. It was developed to provide low-level access to memory and to improve the functionality and efficiency of system software. The first C compiler was written in C itself, demonstrating its power and versatility.</p>
+        <ul>
+            <li>C programming language was developed in 1972 by Dennis Ritchie at bell laboratories of AT&T (American Telephone & Telegraph), located in the U.S.A.</li>
+            <br>
+            <li>It was developed to overcome the problems of previous languages such as B, BCPL, etc.</li>
+            <br>
+            <li>Initially, C language was developed to be used in UNIX operating system. It inherits many features of previous languages such as B and BCPL.</li>
+        </ul>
+        <h2>Features</h2>
+        <ul>
+            <li>Simple and easy to learn</li>
+            <li>Efficient memory management</li>
+            <li>Rich set of operators</li>
+            <li>Structured programming</li>
+            <li>Extensive use in system programming</li>
+            <li>Machine Independent or Portable</li>
+            <li>Memory Management</li>
+            <li>Structured programming language</li>
+        </ul>
+
+        <h2>Applications</h2>
+        <p>C is used in various fields including system programming, embedded systems, and application development. Its speed and low-level capabilities make it a preferred choice for developing operating systems, compilers, and other system-level applications.</p>
+        <p>Since the beginning of time, Adobe Photoshop has been one of the most widely used picture editors. It was created entirely with the aid of the C programming language. Furthermore, C was used to develop Adobe Illustrator and Adobe Premiere.</p>
+        <p>You can widely use the C programming language to develop compilers, one of its most popular applications. Many other languages’ compilers were created with the connection between C and low-level languages in mind, making it easier for the machine to grasp what was being written. Many prominent compilers, such as Clang C, Bloodshed Dev-C, Apple C, and MINGW, were developed with the C programming language.</p>
+        <a href="https://www.geeksforgeeks.org/c-programming-language/" class="cta-button">Learn More</a>
+    </div>
+
+    
+
+</body>
+</html>

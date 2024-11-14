@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login & Sign Up</title>
+  <style>
+   * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(135deg, #f0f4f8, #ffffff), 
+              url('https://www.transparenttextures.com/patterns/paper-fibers.png'); /* Subtle texture */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  animation: fadeIn 1s ease;
+  transition: background 0.5s;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('https://st4.depositphotos.com/3367263/19970/i/380/depositphotos_199707812-stock-photo-digital-composite-books-graduation-hat.jpg'); /* Replace with a path to an educational illustration or abstract shapes */
+  opacity: 0.5; /* Low opacity to keep it subtle */
+  z-index: 0;
+  background-position: center;
+  background-size: contain;
+}
+
+.login-container {
+  position: relative;
+  background: linear-gradient(135deg, #ffffff, #f1f8ff); /* Light gradient for a clean, modern look */
+  border-radius: 20px;
+  padding: 40px;
+  width: 400px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-top: 8px solid #00796b; /* Accent top border in teal for a pop of color */
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15), 0 10px 20px rgba(0, 0, 0, 0.05); /* Modern shadow effect */
+  z-index: 1;
+  overflow: hidden;
+}
+
+.login-container:hover {
+  transform: translateY(-5px); /* Lifting effect on hover */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); /* Stronger shadow on hover */
+}
+
+h1 {
+  margin-bottom: 20px;
+  color: #00796b; /* Teal color for educational feel */
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #b2dfdb;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: #fafafa;
+}
+
+input:focus {
+  border-color: #00796b; /* Highlight input fields on focus */
+  box-shadow: 0 0 10px rgba(0, 121, 107, 0.3); /* Glow effect on focus */
+  outline: none;
+}
+
+button {
+  background-color: #00796b;
+  color: white;
+  padding: 12px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+  background-color: #004d40;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+p {
+  margin: 15px 0;
+  font-size: 14px;
+}
+
+span {
+  color: #666;
+  font-weight: bold;
+}
+
+#signup-section {
+  display: none;
+  border-top: 1px solid #b2dfdb;
+  padding-top: 20px;
+}
+
+#return-btn {
+  background-color: #607d8b;
+}
+
+#return-btn:hover {
+  background-color: #455a64;
+}
+
+#go-to-signup {
+  background-color: #4caf50;
+}
+
+#go-to-signup:hover {
+  background-color: #388e3c;
+}
+
+.toggle-mode {
+  background-color: #00796b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  transition: background-color 0.3s;
+}
+
+.toggle-mode:hover {
+  background-color: #004d40;
+}
+
+@media (max-width: 450px) {
+  .login-container {
+    width: 90%;
+  }
+
+  input, button {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  p {
+    font-size: 12px;
+  }
+}
+
+
+  </style>
+</head>
+<body>
+  <button class="toggle-mode">Dark Mode</button>
+
+  <div class="login-container">
+    <div id="login-section">
+      <h1>Login</h1>
+      <input id="email" type="text" placeholder="Email">
+      <input id="password" type="password" placeholder="Password">
+      <button id="login-btn">Login</button>
+      <p><span>or</span></p>
+      <button id="go-to-signup">Create an Account</button>
+    </div>
+
+    <div id="signup-section">
+      <h1>Sign Up</h1>
+      <input id="email-signup" type="text" placeholder="Email *">
+      <input id="confirm-email-signup" type="email" placeholder="Confirm Email *">
+      <input id="password-signup" type="password" placeholder="Password *">
+      <input id="confirm-password-signup" type="password" placeholder="Confirm Password *">
+      <button id="create-acct-btn">Create Account</button>
+      <button id="return-btn">Return to Login</button>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAbyFAQlnpU7wfsjNZK_FszfxevV5oUNgw",
+    authDomain: "newlogin-cff4c.firebaseapp.com",
+    projectId: "newlogin-cff4c",
+    storageBucket: "newlogin-cff4c.appspot.com",
+    messagingSenderId: "665939383020",
+    appId: "1:665939383020:web:7213ed124794b30776cbc9",
+    measurementId: "G-5L04SQ5E8Y"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const loginButton = document.getElementById("login-btn");
+    const signupButton = document.getElementById("go-to-signup");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const loginSection = document.getElementById("login-section");
+    const signupSection = document.getElementById("signup-section");
+
+    const signupEmailIn = document.getElementById("email-signup");
+    const confirmSignupEmailIn = document.getElementById("confirm-email-signup");
+    const signupPasswordIn = document.getElementById("password-signup");
+    const confirmSignUpPasswordIn = document.getElementById("confirm-password-signup");
+    const createAcctBtn = document.getElementById("create-acct-btn");
+    const returnBtn = document.getElementById("return-btn");
+
+    var signupEmail, signupPassword, confirmSignupEmail, confirmSignUpPassword;
+
+    createAcctBtn.addEventListener("click", function() {
+      var isVerified = true;
+
+      signupEmail = signupEmailIn.value;
+      confirmSignupEmail = confirmSignupEmailIn.value;
+
+      if (signupEmail !== confirmSignupEmail) {
+        window.alert("Email fields do not match. Try again.");
+        isVerified = false;
+      }
+
+      signupPassword = signupPasswordIn.value;
+      confirmSignUpPassword = confirmSignUpPasswordIn.value;
+
+      if (signupPassword !== confirmSignUpPassword) {
+        window.alert("Password fields do not match. Try again.");
+        isVerified = false;
+      }
+
+      if (!signupEmail || !confirmSignupEmail || !signupPassword || !confirmSignUpPassword) {
+        window.alert("Please fill out all required fields.");
+        isVerified = false;
+      }
+
+      if (isVerified) {
+        createUserWithEmailAndPassword(auth, signupEmail, signupPassword)
+          .then((userCredential) => {
+            window.alert("Success! Account created.");
+            window.location.href = 'index.html';
+          })
+          .catch((error) => {
+            window.alert("Error occurred. Try again.");
+          });
+      }
+    });
+
+    loginButton.addEventListener("click", function() {
+      const email = emailInput.value;
+      const password = passwordInput.value;
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          window.alert("Success! Welcome back!");
+          window.location.href = 'index.html';
+        })
+        .catch((error) => {
+          window.alert("Error occurred. Try again.");
+        });
+    });
+
+    signupButton.addEventListener("click", function() {
+      loginSection.style.display = "none";
+      signupSection.style.display = "block";
+    });
+
+    returnBtn.addEventListener("click", function() {
+      loginSection.style.display = "block";
+      signupSection.style.display = "none";
+    });
+
+    const toggleModeBtn = document.querySelector(".toggle-mode");
+    toggleModeBtn.addEventListener("click", function() {
+      document.body.classList.toggle("dark-mode");
+      if (document.body.classList.contains("dark-mode")) {
+        toggleModeBtn.innerHTML = "Light Mode";
+        document.body.style.background = "#121212";
+      } else {
+        toggleModeBtn.innerHTML = "Dark Mode";
+        document.body.style.background = "linear-gradient(135deg, #e0f7fa, #ffffff)";
+      }
+    });
+  </script>
+</body>
+</html>

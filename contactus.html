@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educational Motivation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color:  #74b7f1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 600px;
+            margin: 20px;
+            padding: 20px;
+            background-color: rgb(245, 243, 165);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        h1 {
+            font-size: 32px;
+            color: #333;
+        }
+        .quote{
+            font-size: 18px;
+            color: #555;
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #f4f4f4;
+            border-left: 5px solid #ff7e5f;
+            font-style: italic;
+        }
+
+        .contactform {
+            margin-top: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+            text-align:left ;
+        }
+
+        .contactform label {
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 5px;
+            display: block;
+        }
+        .contactform input, .contactform textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 5px;
+            border: 2px solid #ddd;
+            box-sizing: border-box;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+        }
+        .contactform button {
+            background-color: #ff7e5f;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        .contactform button:hover {
+            background-color: #ff6b50;
+        }
+
+        .success-message {
+            display: none;
+            color: green;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #777;
+        }
+
+        footer a {
+            color: #ff7e5f;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Stay Motivated in Your Educational Journey</h1>
+        <p class="quote" id="quote">"The future belongs to those who believe in the beauty of their dreams." - Eleanor Roosevelt</p>
+
+        <button id="newQuoteBtn" style="padding: 10px 20px; background-color: #ff7e5f; color: white; border: none; border-radius: 5px; cursor: pointer; margin-bottom: 30px;">
+            Show Another Quote
+        </button>
+
+        <form class="contactform" id="contactForm">
+            <h2>Stay In Contact With Us</h2>
+            <div class="input-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="input-group">
+                <label for="message">Your Message</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+            </div>
+            <button type="button" id="submitBtn">Get Started</button>
+            <div class="success-message" id="successMessage">Thank you for getting in touch! We will reach out to you soon.</div>
+        </form>
+    </div>
+
+    <footer>     
+        <p>©️ 2024 Contact Us | Designed with ♥️ by <a href="#"> LearnLeap </a></p>
+    </footer>
+
+    <script>
+        // Motivational quotes array
+        const quotes = [
+            "\"The future belongs to those who believe in the beauty of their dreams.\" - Eleanor Roosevelt",
+            "\"Education is the most powerful weapon which you can use to change the world.\" - Nelson Mandela",
+            "\"Success is not the key to happiness. Happiness is the key to success. If you love what you are doing, you will be successful.\" - Albert Schweitzer",
+            "\"Start where you are. Use what you have. Do what you can.\" - Arthur Ashe",
+            "\"Don’t let what you cannot do interfere with what you can do.\" - John Wooden"
+        ];
+
+        const quoteElement = document.querySelector("#quote");
+        const newQuoteBtn = document.querySelector("#newQuoteBtn");
+        const successMessage = document.querySelector("#successMessage");
+        const nameField = document.querySelector("#name");
+        const emailField = document.querySelector("#email");
+        const messageField = document.querySelector("#message");
+        const submitBtn = document.querySelector("#submitBtn");
+
+        //  random quote
+        newQuoteBtn.addEventListener("click", function () {
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            quoteElement.textContent = quotes[randomIndex];
+        });
+
+        // submission
+        submitBtn.addEventListener("click", function () {
+            if (nameField.value === "" || emailField.value === "" || messageField.value === "") {
+                alert("Please fill out all fields before submitting.");
+                return;
+            }
+
+            // Creating a JSON object of form data
+            const formData = {
+                name: nameField.value,
+                email: emailField.value,
+                message: messageField.value
+            };
+           
+
+            // Logging form data to the console (simulating form submission)
+
+             console.log("Form Data Submitted:", JSON.stringify(formData));
+            
+            // Show success and reset form
+
+            successMessage.style.display = "block";
+            nameField.value = "";
+            emailField.value = "";
+            messageField.value = "";
+        });
+    </script>
+
+</body>
+</html>

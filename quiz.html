@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Quiz</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chart.js/3.7.0/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a3e, #4a148c);
+            color: #fff;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .start-screen {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .start-button {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .start-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .timer {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            text-align: center;
+            display: inline-block;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .question {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .question:hover {
+            transform: translateX(10px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .question p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .options {
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .options label {
+            display: block;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .options label:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .options input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .submit-button {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .submit-button button {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-button button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .result {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            margin-top: 2rem;
+        }
+
+        .score-card {
+            margin-top: 2rem;
+        }
+
+        .score-card h2 {
+            margin-bottom: 1rem;
+        }
+
+        .correct-answer {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .incorrect-answer {
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        #scoreChart {
+            background: rgba(251, 249, 249, 0.05);
+            border-radius: 15px;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+            100% { transform: translateY(0px) rotate(360deg); }
+        }
+
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 8s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-particles" id="particles"></div>
+    <div class="container">
+        <div class="start-screen" id="startScreen">
+            <h1>Test Your Knowledge</h1>
+            <button class="start-button" onclick="startQuiz()">START QUIZ</button>
+        </div>
+
+        <div id="quizSection" style="display: none;">
+            <div class="timer" id="timer">Time Left: 1:00</div>
+            <form id="quizForm">
+                <div class="question">
+                    <p>1. Which type of JavaScript language is ___?</p>
+                    <div class="options">
+                        <label><input type="radio" name="q1" value="Object-Oriented">Object-Oriented</label>
+                        <label><input type="radio" name="q1" value="Assembly-language">Assembly-language</label>
+                        <label><input type="radio" name="q1" value="Object-Based">Object-Based</label>
+                        <label><input type="radio" name="q1" value="High-level">High-level</label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <p>2. In JavaScript, what is a block of statement?</p>
+                    <div class="options">
+                        <label><input type="radio" name="q2" value="Conditional block">Conditional block</label>
+                        <label><input type="radio" name="q2" value="block that combines a number of statements into a single compound statement">block that combines a number of statements into a single compound statement</label>
+                        <label><input type="radio" name="q2" value="both conditional block and a single statement">both conditional block and a single statement</label>
+                        <label><input type="radio" name="q2" value="block that contains a single statement">block that contains a single statement</label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <p>3. The "function" and " var" are known as:</p>
+                    <div class="options">
+                        <label><input type="radio" name="q3" value="Keywords">Keywords</label>
+                        <label><input type="radio" name="q3" value="Data types">Data types</label>
+                        <label><input type="radio" name="q3" value="Declaration statements">Declaration statements</label>
+                        <label><input type="radio" name="q3" value="Prototypes">Prototypes</label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <p>4. Which of the following type of a variable is volatile?</p>
+                    <div class="options">
+                        <label><input type="radio" name="q4" value="Mutable variable">Mutable variable</label>
+                        <label><input type="radio" name="q4" value="Dynamic variable">Dynamic variable</label>
+                        <label><input type="radio" name="q4" value="Volatile variable">Volatile variable</label>
+                        <label><input type="radio" name="q4" value="Immutable variable">Immutable variable</label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <p>5. In the JavaScript, which one of the following is not considered as an error:</p>
+                    <div class="options">
+                        <label><input type="radio" name="q5" value="Syntax error">Syntax error</label>
+                        <label><input type="radio" name="q5" value="Missing of semicolons">Missing of semicolons</label>
+                        <label><input type="radio" name="q5" value="Division by zero">Division by zero</label>
+                        <label><input type="radio" name="q5" value="Missing of Bracket">Missing of Bracket</label>
+                    </div>
+                </div>
+                <div class="question">
+                    <p>6. Which of the following number object function returns the value of the number?</p>
+                    <div class="options">
+                        <label><input type="radio" name="q6" value="toString()">toString()</label>
+                        <label><input type="radio" name="q6" value="valueOf()">valueOf()</label>
+                        <label><input type="radio" name="q6" value="toLocaleString()">toLocaleString()</label>
+                        <label><input type="radio" name="q6" value="toPrecision()">toPrecision()</label>
+                    </div>
+                </div>
+                <div class="question">
+                    <p>7. In JavaScript the x===y statement implies that:</p>
+                    <div class="options">
+                        <label><input type="radio" name="q7" value="Both x and y are equal in value, type and reference address as well.">Both x and y are equal in value, type and reference address as well.</label>
+                        <label><input type="radio" name="q7" value="Both are x and y are equal in value only.">Both are x and y are equal in value only.</label>
+                        <label><input type="radio" name="q7" value="Both are equal in the value and data type.">Both are equal in the value and data type.</label>
+                        <label><input type="radio" name="q7" value="Both are not same at all.">Both are not same at all.</label>
+                    </div>
+                </div>
+
+                <div class="submit-button">
+                    <button type="button" onclick="submitQuiz()">Submit Quiz</button>
+                </div>
+
+                <div class="result" id="quizResult"></div>
+                <canvas id="scoreChart"></canvas>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.top = Math.random() * 100 + 'vh';
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        let timerInterval;
+        
+        function startQuiz() {
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('quizSection').style.display = 'block';
+            
+            let timeLeft = 60;
+            updateTimerDisplay(timeLeft);
+            
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay(timeLeft);
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    submitQuiz();
+                }
+            }, 1000);
+        }
+        
+        function updateTimerDisplay(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            document.getElementById('timer').textContent = 
+                `Time Left: ${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+        }
+        
+        function submitQuiz() {
+            clearInterval(timerInterval);
+            
+            const correctAnswers = {
+                q1: "Object-Based",
+                q2: "block that combines a number of statements into a single compound statement",
+                q3: "Declaration statements",
+                q4: "Mutable variable",
+                q5: "Division by zero",
+                q6: "valueOf()",
+                q7: "Both are equal in the value and data type."
+
+            };
+            
+            let score = 0;
+        let results = '<h2>Quiz Results</h2><div class="score-card">';
+
+        for (const [question, answer] of Object.entries(correctAnswers)) {
+            const selected = document.querySelector(`input[name="${question}"]:checked`);
+            if (selected && selected.value === answer) {
+                score++;
+                results += `<p class="correct-answer">Question ${question.slice(1)}: Correct!</p>`;
+            } else {
+                results += `<p class="incorrect-answer">Question ${question.slice(1)}: Incorrect. Correct answer: ${answer}</p>`;
+            }
+        }
+
+        results += `<h3>Final Score: ${score} out of ${Object.keys(correctAnswers).length}</h3></div>`;
+        document.getElementById('quizResult').innerHTML = results;
+
+        // Prepare data for the chart
+        let scoreData = [score, Object.keys(correctAnswers).length - score];
+        const chartContainer = document.getElementById('scoreChart');
+        const ctx = chartContainer.getContext("2d");
+
+        new Chart(ctx, {
+            type:'bar',
+            data: {
+                labels: ['Correct', 'Incorrect'],
+                datasets: [{
+                    label: 'Quiz Result',
+                    data: scoreData,
+                    backgroundColor: ['green', 'red'],
+                    borderColor: ['green', 'red'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: Object.keys(correctAnswers).length
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    }
+    </script>
+</body>
+</html>

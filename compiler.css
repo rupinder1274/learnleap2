@@ -1,0 +1,164 @@
+/* Basic reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Fira Code', monospace; /* A professional and popular monospace font for coding */
+    background: linear-gradient(145deg, #2e2e2e, #1a1a1a); /* A more subtle dark gradient */
+    color: #dcdcdc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+    overflow: hidden; /* Prevents unnecessary scroll */
+  }
+  
+  /* Main container styling */
+  .container {
+    width: 90%;
+    max-width: 900px;
+    background-color: #2a2a2a;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6); /* Deeper shadow */
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  }
+  
+  /* Scale and shadow effect when hovering over the container */
+  .container:hover {
+    transform: scale(1.02);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8);
+  }
+  
+  /* Typography and spacing for the heading */
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #4fc1e9; /* Bright, fresh blue color for heading */
+    font-size: 2.5rem;
+    letter-spacing: 1.2px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4); /* Subtle shadow effect */
+    font-weight: 600;
+  }
+  
+  /* Code editor container */
+  .editor-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 25px; /* Add more space for better separation */
+  }
+  
+  /* Styling for the textarea (code editor) */
+  textarea {
+    width: 100%;
+    height: 300px;
+    padding: 15px;
+    font-size: 1.2rem;
+    border: 2px solid transparent; /* No border by default */
+    border-radius: 10px;
+    background-color: #1f1f1f;
+    color: #dcdcdc;
+    box-shadow: inset 0 5px 15px rgba(0, 0, 0, 0.3);
+    outline: none;
+    resize: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  /* Subtle focus effect for the editor */
+  textarea:focus {
+    border-color: #4fc1e9; /* Blue border on focus */
+    box-shadow: inset 0 5px 15px rgba(0, 122, 255, 0.5); /* Glowing effect */
+  }
+  
+  /* Placeholder text styling */
+  textarea::placeholder {
+    color: #888;
+  }
+  
+  /* Run button styling */
+  #run-btn {
+    padding: 12px 30px;
+    background-color: #61dafb; /* Vibrant blue color */
+    color: #1f1f1f;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 6px 20px rgba(97, 218, 251, 0.5);
+  }
+  
+  /* Hover and active effects for the button */
+  #run-btn:hover {
+    background-color: #4fc1e9;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(97, 218, 251, 0.8);
+  }
+  
+  #run-btn:active {
+    transform: translateY(0); /* Button returns to original state when clicked */
+    box-shadow: 0 6px 15px rgba(97, 218, 251, 0.5);
+  }
+  
+  /* Output container styling */
+  .output-container {
+    padding: 20px;
+    background-color: #252526;
+    border-radius: 10px;
+    border-left: 5px solid #61dafb;
+  }
+  
+  /* Output heading styling */
+  .output-container h2 {
+    color: #61dafb;
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Styling for the output box */
+  #output {
+    padding: 15px;
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    border: 1px solid #444;
+    white-space: pre-wrap;
+    color: #dcdcdc;
+    box-shadow: inset 0 5px 15px rgba(0, 0, 0, 0.3);
+    font-family: 'Fira Code', monospace; /* Use the same coding font for output */
+    font-size: 1rem;
+  }
+  
+  /* Responsive adjustments for smaller screens */
+  @media (max-width: 768px) {
+    textarea {
+      height: 200px;
+    }
+  
+    #run-btn {
+      font-size: 1.1rem;
+      padding: 10px 20px;
+    }
+  
+    .container {
+      width: 100%;
+      padding: 20px;
+    }
+  
+    h1 {
+      font-size: 2rem;
+    }
+  
+    .editor-container {
+      gap: 15px;
+    }
+  }
+  
+  
